@@ -23,3 +23,66 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+body{ 
+  display: block;
+  font-size: large;
+background-color: rgb(231, 229, 229);
+padding-top: 10px;
+padding-bottom: 100%;
+padding-left: 10px;
+}
+.pagelink { 
+display: inline-flex;
+  font-size: large;
+  margin: 20px 10px;
+  padding: 10px;
+  background-color: rgb(87, 84, 84);
+  border: 1px double rgb(47, 47, 182);
+  border-radius: 10px;
+  color: aliceblue;
+ 
+}
+
+.timer{
+  display: flex;
+}
+.field{
+  display: flex-block;
+  margin-top: 20px;
+ 
+}
+
+span{
+  display: flex;
+  margin-left: 10px;
+  justify-content: center;
+  letter-spacing: 0px;
+  font-size: large;
+  
+}
+
+button{
+  padding: 10px;
+  background-color: #c2bfbf;
+  border: 1px double rgb(140, 140, 164);
+  border-radius: 5px;
+  font-size: large;
+  color: rgb(66, 68, 69);
+}
+.form{
+  display: block;
+}
+fieldset{
+  margin: 20px 0;
+}
+
+input{
+  padding: 10px;
+}
+
+fieldset{
+  display: flex;
+  max-width: 250px;
+  column-gap: 30px;  
+}
