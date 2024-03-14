@@ -7,6 +7,44 @@ import 'izitoast/dist/css/iziToast.min.css';
 let userSelectedDate;
 let timeInterval;
 
+function addLeadingZero(value) {
+  return value.toString().padStart(2, '0');
+}
+
+document.querySelector('.form').addEventListener('submit', event => {
+  event.preventDefault();
+  
+  const formData = new FormData(event.target);
+  const delay = formData.get('delay');
+  const state = formData.get('state');
+
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (state === "fulfilled") {
+        resolve(delay);
+      } else {
+        reject(delay);
+      }
+    }, delay);
+  });
+
+  promise
+    .then(value => {
+      iziToast.success({  
+        color: 'green',
+        position: "topRight",
+        message: `✅ Fulfilled promise in ${value}ms`
+      });
+    })
+    .catch(error => {
+      iziToast.error({ 
+        color: 'red',
+        position: "topRight",          
+        message: `❌ Rejected promise in ${error}ms`
+      });
+    });
+});
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -25,7 +63,6 @@ const options = {
         });
       } else {
         startButton.disabled = false;
-        dateTimeInput.disabled = true;
       }
     } catch (error) {
       console.error('An error occurred:', error.message);
@@ -33,29 +70,16 @@ const options = {
   },
 };
 
-function convertMs(ms) {
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  const days = Math.floor(ms / day);
-  const hours = Math.floor((ms % day) / hour);
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-
-  return { days, hours, minutes, seconds };
-}
-
 const calendar = flatpickr('#datetime-picker', options);
-const dateTimeInput = document.querySelector('#datetime-picker');
 const startButton = document.querySelector('button');
 const showTimeElements = document.querySelectorAll('.value');
 
 startButton.disabled = true;
 
-startButton.addEventListener('click', event => {
+startButton.addEventListener('click', () => {
   clearInterval(countdownInterval);
+
+  dateTimeInput.disabled = true;
 
   countdownInterval = setInterval(() => {
     const timeRemaining = userSelectedDate - new Date();
@@ -69,11 +93,9 @@ startButton.addEventListener('click', event => {
 
     const timeObject = convertMs(timeRemaining);
 
-    showTimeElements[0].innerText = timeObject.days.toString().padStart(2, '0');
-    showTimeElements[1].innerText = timeObject.hours.toString().padStart(2, '0');
-    showTimeElements[2].innerText = timeObject.minutes.toString().padStart(2, '0');
-    showTimeElements[3].innerText = timeObject.seconds.toString().padStart(2, '0');
+    showTimeElements[0].innerText = addLeadingZero(timeObject.days);
+    showTimeElements[1].innerText = addLeadingZero(timeObject.hours);
+    showTimeElements[2].innerText = addLeadingZero(timeObject.minutes);
+    showTimeElements[3].innerText = addLeadingZero(timeObject.seconds);
   }, 1000);
-
-  event.preventDefault();
 });

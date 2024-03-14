@@ -1,6 +1,7 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
+
 document.querySelector('.form').addEventListener('submit', event => {
   event.preventDefault();
   
@@ -20,9 +21,17 @@ document.querySelector('.form').addEventListener('submit', event => {
 
   promise
     .then(value => {
-      console.log(`✅ Fulfilled promise in ${value}ms`);
+      iziToast.success({  
+        color: 'green',
+        position: "topRight",
+        message: `✅ Fulfilled promise in ${value}ms`
+      });
     })
     .catch(error => {
-      console.log(`❌ Rejected promise in ${error}ms`);
+      iziToast.error({ 
+        color: 'red',
+        position: "topRight",          
+        message: `❌ Rejected promise in ${error}ms`
+      });
     });
 });
